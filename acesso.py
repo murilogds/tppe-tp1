@@ -2,8 +2,10 @@ class Acesso:
     horaEntrada = ''
     horaSaida = ''
     tipoEstacionamento = 0
+    acessoDiurno = 0
+    acessoNoturno = 0
 
-    def __init__(self, horaEntrada, horaSaida, tipoEstacionamento) -> None:
+    def __init__(self, horaEntrada = '', horaSaida = '', tipoEstacionamento = 0) -> None:
         self.horaEntrada = horaEntrada
         self.horaSaida = horaSaida
         self.tipoEstacionamento = tipoEstacionamento
@@ -26,3 +28,6 @@ class Acesso:
         
         valor_total = (4*f_valor*tempoTotal//60)
         return valor_total - (v_hora/100) * valor_total
+
+    def getPrecoAcessoNoturno(self):
+        return 54
