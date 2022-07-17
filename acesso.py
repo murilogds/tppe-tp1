@@ -1,4 +1,5 @@
 from estacionamento import Estacionamento
+import math
 
 class Acesso:
     def __init__(self, horaEntrada = '', horaSaida = '', placa = '') -> None:
@@ -7,7 +8,7 @@ class Acesso:
         self.placa = placa
 
     def calculaAcesso(self, estacionamento: Estacionamento):
-        if self.useDiariaNoturna(estacionamento.entrada_noturna):
+        if self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
             return estacionamento.diaria_noturna
         elif self.calculoHoras(self.horaEntrada, self.horaSaida) <= 540:
             return self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora)
@@ -17,7 +18,7 @@ class Acesso:
         minutos = (int(self.horaSaida.split(':')[1]) - int(self.horaEntrada.split(':')[1]))
         tempoTotal = horas + minutos
         
-        valor_total = (4*f_valor*tempoTotal//60)
+        valor_total = (4*  f_valor* math.floor(tempoTotal/60))
         return valor_total - (v_hora/100) * valor_total
 
     def calculoHoras(self, hora1, hora2):
@@ -26,11 +27,9 @@ class Acesso:
         tempoTotal = horas + minutos
         return tempoTotal
 
-    def useDiariaNoturna(self, entrada_noturna):
-        if (entrada_noturna == '19:00' and self.horaEntrada == '21:00'):
-            return True
-        elif (entrada_noturna == '21:00' and self.horaEntrada == '22:00'):
-            return True
-        else:
-            return False
+    def useDiariaNoturna(self, entrada_noturna, retirada_noturna):
+        return ((self.calculoHoras(self.horaEntrada, entrada_noturna) <= 0
+                or self.calculoHoras(self.horaEntrada, retirada_noturna) > 0)
+            and (self.calculoHoras(self.horaSaida, entrada_noturna) <= 0
+                or self.calculoHoras(self.horaSaida, retirada_noturna) > 0))
         
