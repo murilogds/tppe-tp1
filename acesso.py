@@ -1,8 +1,15 @@
+from descricao_em_branco_exception import DescricaoEmBrancoException
 from estacionamento import Estacionamento
 import math
 
 class Acesso:
     def __init__(self, horaEntrada = '', horaSaida = '', placa = '') -> None:
+        if (horaEntrada.strip(' ') == ''):
+            raise DescricaoEmBrancoException('Hora de Entrada')
+        if (horaSaida.strip(' ') == ''):
+            raise DescricaoEmBrancoException('Hora de Saída')
+        if (placa.strip(' ') == ''):
+            raise DescricaoEmBrancoException('Placa')
         self.horaEntrada = horaEntrada
         self.horaSaida = horaSaida
         self.placa = placa
