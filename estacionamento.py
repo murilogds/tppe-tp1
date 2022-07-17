@@ -1,5 +1,3 @@
-from acesso import Acesso
-
 class Estacionamento:
     def __init__(
         self,
