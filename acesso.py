@@ -27,7 +27,9 @@ class Acesso:
         return tempoTotal
 
     def useDiariaNoturna(self, entrada_noturna):
-        if (self.horaEntrada == '21:00'):
+        if (entrada_noturna == '19:00' and self.horaEntrada == '21:00'):
+            return True
+        elif (entrada_noturna == '21:00' and self.horaEntrada == '22:00'):
             return True
         else:
             return False
