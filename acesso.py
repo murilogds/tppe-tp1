@@ -20,12 +20,15 @@ class Acesso:
     def calculaAcesso(self, estacionamento: Estacionamento):
         tempoEstacionado = self.calculoHoras(self.horaEntrada, self.horaSaida)
         if self.isEvento:
+            self.totalArrecadado += estacionamento.valor_evento
             return estacionamento.valor_evento
         elif self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
+            self.totalArrecadado += estacionamento.diaria_noturna
             return estacionamento.diaria_noturna
         elif tempoEstacionado <= 540:
             valorHoraCheia = self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora, tempoEstacionado)
             valorFracionado = self.getPrecoHoraFracionada(tempoEstacionado, estacionamento)
+            self.totalArrecadado += valorFracionado + valorHoraCheia
             return valorFracionado + valorHoraCheia
 
     def getPrecoHoraFracionada(self, tempoEstacionado: Int, estacionamento: Estacionamento):
@@ -49,4 +52,7 @@ class Acesso:
                 or self.calculoHoras(self.horaEntrada, retirada_noturna) > 0)
             and (self.calculoHoras(self.horaSaida, entrada_noturna) <= 0
                 or self.calculoHoras(self.horaSaida, retirada_noturna) > 0))
+    
+    def getValorContratante(self, estacionamento: Estacionamento):
+        return 9
         
