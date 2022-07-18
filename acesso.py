@@ -3,7 +3,7 @@ from estacionamento import Estacionamento
 import math
 
 class Acesso:
-    def __init__(self, horaEntrada = '', horaSaida = '', placa = '') -> None:
+    def __init__(self, horaEntrada = '', horaSaida = '', placa = '', isEvento = 0) -> None:
         if (horaEntrada.strip(' ') == ''):
             raise DescricaoEmBrancoException('Hora de Entrada')
         if (horaSaida.strip(' ') == ''):
@@ -13,9 +13,13 @@ class Acesso:
         self.horaEntrada = horaEntrada
         self.horaSaida = horaSaida
         self.placa = placa
+        self.isEvento = isEvento
+        self.totalArrecadado = 0
 
     def calculaAcesso(self, estacionamento: Estacionamento):
-        if self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
+        if self.isEvento:
+            return 40
+        elif self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
             return estacionamento.diaria_noturna
         elif self.calculoHoras(self.horaEntrada, self.horaSaida) <= 540:
             return self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora)
