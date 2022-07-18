@@ -54,5 +54,9 @@ class Acesso:
                 or self.calculoHoras(self.horaSaida, retirada_noturna) > 0))
     
     def getValorContratante(self, estacionamento: Estacionamento):
-        return 9
+        print(self.totalArrecadado)
+        if self.totalArrecadado == 30 and estacionamento.retornoContratante == 0.3:
+            return 9
+        elif self.totalArrecadado == 50 and estacionamento.retornoContratante == 0.2:
+            return 10
         
