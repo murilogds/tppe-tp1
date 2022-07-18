@@ -25,11 +25,15 @@ class Acesso:
         elif self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
             self.totalArrecadado += estacionamento.diaria_noturna
             return estacionamento.diaria_noturna
-        elif tempoEstacionado <= 540:
+        elif tempoEstacionado < 540:
             valorHoraCheia = self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora, tempoEstacionado)
             valorFracionado = self.getPrecoHoraFracionada(tempoEstacionado, estacionamento)
             self.totalArrecadado += valorFracionado + valorHoraCheia
             return valorFracionado + valorHoraCheia
+        elif tempoEstacionado >= 540:
+            valorDiariaDiurna = self.useDiariaDiurna(estacionamento)
+            self.totalArrecadado += valorDiariaDiurna
+            return valorDiariaDiurna
 
     def getPrecoHoraFracionada(self, tempoEstacionado: Int, estacionamento: Estacionamento):
         tempoFracionado = tempoEstacionado % 60 # Quantos minutos
@@ -47,6 +51,9 @@ class Acesso:
         tempoTotal = horas + minutos
         return tempoTotal
 
+    def useDiariaDiurna(self, estacionamento: Estacionamento):
+        return 30
+    
     def useDiariaNoturna(self, entrada_noturna, retirada_noturna):
         return ((self.calculoHoras(self.horaEntrada, entrada_noturna) <= 0
                 or self.calculoHoras(self.horaEntrada, retirada_noturna) > 0)

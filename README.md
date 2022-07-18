@@ -2,7 +2,7 @@
 
 ### Futuras melhorias
 
-- Adicionar função que calcula a diária diurna
+- Adicionar função que calcula a diária **diurna**
 - Adicionar teste de diária diurna na suite de teste de valor contratante
 - Adicionar interface
 - Implementar horario de funcionamento
