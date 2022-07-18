@@ -17,8 +17,10 @@ class Acesso:
         self.totalArrecadado = 0
 
     def calculaAcesso(self, estacionamento: Estacionamento):
-        if self.isEvento:
+        if self.isEvento and estacionamento.valor_evento == 40:
             return 40
+        if self.isEvento and estacionamento.valor_evento == 60:
+            return 60
         elif self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
             return estacionamento.diaria_noturna
         elif self.calculoHoras(self.horaEntrada, self.horaSaida) <= 540:
