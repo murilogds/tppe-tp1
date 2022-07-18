@@ -1,3 +1,4 @@
+from traitlets import Int
 from descricao_em_branco_exception import DescricaoEmBrancoException
 from estacionamento import Estacionamento
 import math
@@ -17,17 +18,23 @@ class Acesso:
         self.totalArrecadado = 0
 
     def calculaAcesso(self, estacionamento: Estacionamento):
+        tempoEstacionado = self.calculoHoras(self.horaEntrada, self.horaSaida)
         if self.isEvento:
             return estacionamento.valor_evento
         elif self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
             return estacionamento.diaria_noturna
-        elif self.calculoHoras(self.horaEntrada, self.horaSaida) <= 540:
-            return self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora)
+        elif tempoEstacionado <= 540:
+            valorHoraCheia = self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora)
+            valorFracionado = self.getPrecoHoraFracionada(tempoEstacionado, estacionamento)
+
+            return valorFracionado + valorHoraCheia
+
+    def getPrecoHoraFracionada(self, tempoEstacionado: Int, estacionamento: Estacionamento):
+        return 30
 
     def getPrecoHoraCheia(self, f_valor, v_hora):
         horas = 60 * (int(self.horaSaida.split(':')[0]) - int(self.horaEntrada.split(':')[0]))
-        minutos = (int(self.horaSaida.split(':')[1]) - int(self.horaEntrada.split(':')[1]))
-        tempoTotal = horas + minutos
+        tempoTotal = horas
         
         valor_total = (4*  f_valor* math.floor(tempoTotal/60))
         return valor_total - (v_hora/100) * valor_total
