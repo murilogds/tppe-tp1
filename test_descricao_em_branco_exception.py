@@ -1,7 +1,7 @@
 import pytest
 from acesso import Acesso
 
-from descricao_em_branco_exception import DescricaoEmBrancoException
+from exceptions import DescricaoEmBrancoException
 
 @pytest.mark.parametrize("horaEntrada,horaSaida,placa", [
     (' ', '08:50', 'BBB-1111'),

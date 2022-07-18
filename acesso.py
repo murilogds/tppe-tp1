@@ -1,5 +1,5 @@
 from traitlets import Int
-from descricao_em_branco_exception import DescricaoEmBrancoException
+from exceptions import DescricaoEmBrancoException
 from estacionamento import Estacionamento
 import math
 
