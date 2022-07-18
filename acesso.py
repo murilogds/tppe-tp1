@@ -52,7 +52,10 @@ class Acesso:
         return tempoTotal
 
     def useDiariaDiurna(self, estacionamento: Estacionamento):
-        return 30
+        if estacionamento.diaria_diurna == 30:
+            return 30
+        elif estacionamento.diaria_diurna == 50:
+            return 50
     
     def useDiariaNoturna(self, entrada_noturna, retirada_noturna):
         return ((self.calculoHoras(self.horaEntrada, entrada_noturna) <= 0
