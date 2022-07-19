@@ -1,16 +1,17 @@
 from estacionamento import Estacionamento
 
-estacionamento = Estacionamento(
-    valor_fracao = 10,
-    retornoContratante = 0.43,
-    valor_hora = 10,
-    diaria_diurna = 70,
-    diaria_noturna = 50, 
-    entrada_noturna = '22:00',
-    retirada_noturna = '06:00',
+estacionamentoDefault = Estacionamento(
+    valor_fracao = 30,
+    retorno_contratante = 0.5,
+    valor_hora = 15,
+    diaria_diurna = 120,
+    diaria_noturna = 54, 
+    entrada_noturna = '19:00',
+    retirada_noturna = '08:00',
     valor_mensalista = 600,
-    valor_evento = 70,
-    horario_funcionamento = '',
-    capacidade = 0,
+    valor_evento = 50,
+    horario_min_funcionamento = '6:00',
+    horario_max_funcionamento = '22:00',
+    capacidade = 300,
     acessos = []
 )

@@ -1,28 +1,29 @@
-from traitlets import Int
-from exceptions import DescricaoEmBrancoException
+from exceptions import IntervaloInvalidoException
 from estacionamento import Estacionamento
 import math
 
 class Acesso:
-    def __init__(self, horaEntrada = '', horaSaida = '', placa = '', isEvento = 0) -> None:
-        if (horaEntrada.strip(' ') == ''):
-            raise DescricaoEmBrancoException('Hora de Entrada')
-        if (horaSaida.strip(' ') == ''):
-            raise DescricaoEmBrancoException('Hora de Saída')
-        if (placa.strip(' ') == ''):
-            raise DescricaoEmBrancoException('Placa')
+    def __init__(self, horaEntrada = '', horaSaida = '', placa = '', isEvento = 0, isMensalista = 0) -> None:
         self.horaEntrada = horaEntrada
         self.horaSaida = horaSaida
         self.placa = placa
         self.isEvento = isEvento
         self.totalArrecadado = 0
+        self.isMensalista = isMensalista
 
     def calculaAcesso(self, estacionamento: Estacionamento):
-        tempoEstacionado = self.calculoHoras(self.horaEntrada, self.horaSaida)
         if self.isEvento:
             self.totalArrecadado += estacionamento.valor_evento
             return estacionamento.valor_evento
-        elif self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
+        elif self.isMensalista:
+            self.totalArrecadado += estacionamento.valor_mensalista
+            return estacionamento.valor_mensalista
+
+        if self.isHorarioInvalido(estacionamento.horario_min_funcionamento, estacionamento.horario_max_funcionamento):
+            raise IntervaloInvalidoException()
+
+        tempoEstacionado = self.calculoHoras(self.horaEntrada, self.horaSaida)
+        if self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
             self.totalArrecadado += estacionamento.diaria_noturna
             return estacionamento.diaria_noturna
         elif tempoEstacionado < 540:
@@ -35,7 +36,7 @@ class Acesso:
             self.totalArrecadado += valorDiariaDiurna
             return valorDiariaDiurna
 
-    def getPrecoHoraFracionada(self, tempoEstacionado: Int, estacionamento: Estacionamento):
+    def getPrecoHoraFracionada(self, tempoEstacionado: int, estacionamento: Estacionamento):
         tempoFracionado = tempoEstacionado % 60 # Quantos minutos
         fracoes = math.ceil(tempoFracionado / 15)
         return fracoes * estacionamento.valor_fracao
@@ -61,5 +62,11 @@ class Acesso:
                 or self.calculoHoras(self.horaSaida, retirada_noturna) > 0))
     
     def getValorContratante(self, estacionamento: Estacionamento):
-        return self.totalArrecadado * estacionamento.retornoContratante
+        return self.totalArrecadado * estacionamento.retorno_contratante
+
+    def isHorarioInvalido(self, horarioMinimo, horarioMaximo):
+        return (self.calculoHoras(horarioMinimo, self.horaEntrada) < 0
+            or self.calculoHoras(horarioMinimo, self.horaSaida) < 0 
+            or self.calculoHoras(horarioMaximo, self.horaEntrada) > 0 
+            or self.calculoHoras(horarioMaximo, self.horaSaida) > 0)
         
