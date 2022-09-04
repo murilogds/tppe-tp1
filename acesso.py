@@ -56,11 +56,17 @@ class Acesso:
         return estacionamento.diaria_diurna
     
     def useDiariaNoturna(self, entrada_noturna, retirada_noturna):
-        return ((self.calculoHoras(self.horaEntrada, entrada_noturna) <= 0
-                or self.calculoHoras(self.horaEntrada, retirada_noturna) > 0)
-            and (self.calculoHoras(self.horaSaida, entrada_noturna) <= 0
-                or self.calculoHoras(self.horaSaida, retirada_noturna) > 0))
-    
+        return (self.entradaNoturna(entrada_noturna, retirada_noturna) 
+            and self.saidaNoturna(entrada_noturna, retirada_noturna))
+
+    def entradaNoturna(self, entrada_noturna, retirada_noturna):
+        return (self.calculoHoras(self.horaEntrada, entrada_noturna) <= 0
+            or self.calculoHoras(self.horaEntrada, retirada_noturna) > 0)
+
+    def saidaNoturna(self, entrada_noturna, retirada_noturna):
+        return (self.calculoHoras(self.horaSaida, entrada_noturna) <= 0
+            or self.calculoHoras(self.horaSaida, retirada_noturna) > 0)
+
     def getValorContratante(self, estacionamento: Estacionamento):
         return self.totalArrecadado * estacionamento.retorno_contratante
 
