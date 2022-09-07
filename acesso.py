@@ -11,23 +11,24 @@ class Acesso:
         self.isEvento = isEvento
         self.totalArrecadado = 0
         self.isMensalista = isMensalista
-
+        self.HORA_MINUTO = 60
+        self.QUARTO_DE_HORA = 15
 
     def calculaAcesso(self, estacionamento: Estacionamento):
         return CalculaAcesso(self).calculaAcesso(estacionamento)
 
     def getPrecoHoraFracionada(self, tempoEstacionado: int, estacionamento: Estacionamento):
-        tempoFracionado = tempoEstacionado % 60 # Quantos minutos
-        fracoes = math.ceil(tempoFracionado / 15)
+        tempoFracionado = tempoEstacionado % self.HORA_MINUTO # Quantos minutos
+        fracoes = math.ceil(tempoFracionado / self.QUARTO_DE_HORA)
         return fracoes * estacionamento.valor_fracao
 
 
     def getPrecoHoraCheia(self, f_valor, v_hora, tempoTotal):
-        valor_total = (4*  f_valor* math.floor(tempoTotal/60))
+        valor_total = (4*  f_valor* math.floor(tempoTotal/self.HORA_MINUTO))
         return valor_total - (v_hora/100) * valor_total
 
     def calculoHoras(self, hora1, hora2):
-        horas = 60 * (int(hora2.split(':')[0]) - int(hora1.split(':')[0]))
+        horas = self.HORA_MINUTO * (int(hora2.split(':')[0]) - int(hora1.split(':')[0]))
         minutos = (int(hora2.split(':')[1]) - int(hora1.split(':')[1]))
         tempoTotal = horas + minutos
         return tempoTotal
