@@ -1,5 +1,6 @@
 from exceptions import IntervaloInvalidoException
 from estacionamento import Estacionamento
+from calcula_acesso import CalculaAcesso
 import math
 
 class Acesso:
@@ -11,30 +12,9 @@ class Acesso:
         self.totalArrecadado = 0
         self.isMensalista = isMensalista
 
+
     def calculaAcesso(self, estacionamento: Estacionamento):
-        if self.isEvento:
-            self.totalArrecadado += estacionamento.valor_evento
-            return estacionamento.valor_evento
-        elif self.isMensalista:
-            self.totalArrecadado += estacionamento.valor_mensalista
-            return estacionamento.valor_mensalista
-
-        if self.isHorarioInvalido(estacionamento.horario_min_funcionamento, estacionamento.horario_max_funcionamento):
-            raise IntervaloInvalidoException()
-
-        tempoEstacionado = self.calculoHoras(self.horaEntrada, self.horaSaida)
-        if self.useDiariaNoturna(estacionamento.entrada_noturna, estacionamento.retirada_noturna):
-            self.totalArrecadado += estacionamento.diaria_noturna
-            return estacionamento.diaria_noturna
-        elif tempoEstacionado < 540:
-            valorHoraCheia = self.getPrecoHoraCheia(estacionamento.valor_fracao, estacionamento.valor_hora, tempoEstacionado)
-            valorFracionado = self.getPrecoHoraFracionada(tempoEstacionado, estacionamento)
-            self.totalArrecadado += valorFracionado + valorHoraCheia
-            return valorFracionado + valorHoraCheia
-        elif tempoEstacionado >= 540:
-            valorDiariaDiurna = self.useDiariaDiurna(estacionamento)
-            self.totalArrecadado += valorDiariaDiurna
-            return valorDiariaDiurna
+        return CalculaAcesso(self).calculaAcesso(estacionamento)
 
     def getPrecoHoraFracionada(self, tempoEstacionado: int, estacionamento: Estacionamento):
         tempoFracionado = tempoEstacionado % 60 # Quantos minutos
