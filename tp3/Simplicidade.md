@@ -12,7 +12,8 @@ Os seguintes maus cheiros estão relacionados com essa característica:
 
 - Método longo: métodos longos são muito grandes, o que os tornam difíceis de entender;
 - Classes grandes: Caem na mesma questão dos métodos longos, também pode ser um sinal de repetições no código;
-- Longa lista de parâmetros: Trazem inconsistência, se tornam difíceis de entender e portanto difíceis de utilizar
+- Longa lista de parâmetros: Trazem inconsistência, se tornam difíceis de entender e portanto difíceis de utilizar;
+- Mudanças divergentes: A complexidade é alta quando é necessário fazer diversas alterações em uma classe para poder realizar uma mudança;
 - Aglomerados de dados: Apesar de aparecerem juntos com frequência, dados aglomerados não estão em conjunto em uma classe, isso pode gerar a sensação de bagunça ao código;
 - Cadeias de mensagens: Quando há um loop de métodos que chamam outros métodos, isso também é um sinal de que o código não está simples.
 
@@ -20,8 +21,8 @@ Os seguintes maus cheiros estão relacionados com essa característica:
 
 As seguintes refatorações podem ser aplicadas:
 
-- Extrair método: Tranformar em um método separado pode auxiliar com métodos longos, diminuindo assim seu tamanho. Maus cheiros relacionados: Método longo, cadeias de mensagens;
-- Extrair classe/subclasse: Serve para agrupar um número de variáveis que juntas vão fazer algum sentido como uma subclasse da classe em questão ou para o projeto em si. Maus cheiros relacionados: Classe grande, aglomerado de dados
+- Extrair método: Tranformar em um método separado pode auxiliar com métodos longos, diminuindo assim seu tamanho, também pode acomodar os elementos de variação em um único lugar. Maus cheiros relacionados: Método longo, cadeias de mensagens, mudanças divergentes;
+- Extrair classe/subclasse: Serve para agrupar um número de variáveis que juntas vão fazer algum sentido como uma subclasse da classe em questão ou para o projeto em si. Maus cheiros relacionados: Classe grande, aglomerado de dados;
 - Substituir parâmetro por método: Ao invés de passar o dado como parâmetro, realizar a chamada de um método do objeto que possua o dado vai diminuir a quantidade de parâmetros passados. Maus cheiros relacionados: longa lista de parâmetros.
 
 Exemplo de refatoração no código de levou a ter a característica em análise:
